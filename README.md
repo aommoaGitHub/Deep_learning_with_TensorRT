@@ -31,9 +31,9 @@ In other words, 1.1 Cell_i_kernel <Weights> in the concatenation of 2.1 Cell_i_C
 Before storing the weights in the checkpoint, TensorFlow transposes and then interleaves the rows of transposed matrices. The order of the interleaving is described in the next section. A figure is provided in BasicLSTMCell Example to further illustrate this format.
 
 - Gate Order Based On Layer Operation Type The transposed weight matrices are interleaved in the following order:
-1. RNN RuLU/Tanh: input gate (i)
-2. LSTM: input gate (i), cell gate (c) , forget gate (f), output gate (o)
-3. GRU: reset (r), update (u)
+    1. RNN RuLU/Tanh: input gate (i)
+    2. LSTM: input gate (i), cell gate (c) , forget gate (f), output gate (o)
+    3. GRU: reset (r), update (u)
 - Kernel Weights Conversion To A TensorRT Format
 Converting the weights from TensorFlow format can be summarized in two steps.
 Reshape the weights to push the interleaving down to a lower dimension.
