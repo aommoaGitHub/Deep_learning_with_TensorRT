@@ -2,18 +2,25 @@
 
 
 ## Workflow
+ 
+### 1. TensorFlow -> TensorRT on Jetson-tx2
+- https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification.git
+
+There are python code for converting TensorFlow model to TensorRT model. 
+
+### 2. 
 https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#tf_rnn_workflow
 Dump Weights -> Load Weights -> Convert Weights -> Set Weights
 
-### Dump Weights
+#### 2.2 Dump Weights
 Python script dumpTFWts.py can be used to dump all the variables and weights from a given TensorFlow checkpoint. The script is located in the `/usr/src/tensorrt/samples/common/` dumpTFWts.py directory. Issue dumpTFWts.py -h for more information on the usage of this script.
 
-### Load Weights
+#### 2.3  Load Weights
 Function loadWeights() loads from the dump of the dumpTFWts.py script. It has been provided as an example in the Building An RNN Network Layer By Layer sample. The function signature is:
  `std::map<std::string, Weights> loadWeights(const std::string file, std::unordered_set<std::string> names);` <br>
 This function loads the weights specified by the names set from the specified file and returns them in a `std::map<std::string, Weights>.` 
 
-### Convert Weights
+#### 2.4 Convert Weights
 - At this point, we are ready to convert the weights. To do this, the following steps are required:
 Understanding and using the TensorFlow checkpoint to get the tensor.
 Understanding and using the tensors to extract and reformat relevant weights and set them to the corresponding layers in TensorRT.
@@ -46,19 +53,15 @@ The bias tensor is simply stored as contiguous vectors concatenated in the order
 - Bias Tensor Conversion To TensorRT Format
 Since the biases are stored as contiguous vectors, there aren’t any transformations that need to be applied to get the bias into the TensorRT format.
 
-### Set Weights
+### 2.5 Set Weights
 
 ## Sources
-
 - https://developer.nvidia.com/tensorrt
+
+### Hall of face - Face detection model
 - https://github.com/the-house-of-black-and-white/hall-of-faces
-Face detection
 Area under the ROC curve show how good the model of detection.
-
-## TensorFlow -> TensorRT on Jetson-tx2
-- https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification.git
-
-There are python code for converting TensorFlow model to TensorRT model. 
+(mAP measurements) https://medium.com/@jonathan_hui/map-mean-average-precision-for-object-detection-45c121a31173
 
 ## Simple Run
 - https://github.com/KleinYuan/py-TensorRT
