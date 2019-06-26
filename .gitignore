@@ -1,3 +1,5 @@
-models/
+notebook/models/
 *.tar.gz
 .ipynb_checkpoints
+notebook/data/
+notebook/helper.py
