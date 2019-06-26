@@ -1,10 +1,12 @@
 # Tensor RT
 
 ## Keras Workflow
+![alt text](https://gitlab.iz.hs-offenburg.de/imla/demos/tensor_rt/blob/vittunyuta/notebook/pictures/Keras_to_TensorRT.png "Keras Workflow")
 - https://github.com/jeng1220/KerasToTensorRT -- I cannot run it. Could you solve it?
 - https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f
 
 ## TensorFlow Workflow
+![alt text](https://gitlab.iz.hs-offenburg.de/imla/demos/tensor_rt/blob/vittunyuta/notebook/pictures/tf-trt_workflow.png "Tensorflow Workflow")
 - https://devblogs.nvidia.com/tensorrt-integration-speeds-tensorflow-inference/
 
 ### 1. TensorFlow -> TensorRT on Jetson-tx2
@@ -33,3 +35,7 @@ Area under the ROC curve show how good the model of detection.
 
 ## More
 - onnx
+
+## Reference
+- Workflow Image: https://github.com/ardianumam/Tensorflow-TensorRT.git
+- Convert Keras Model to Tensorflow model: https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a
