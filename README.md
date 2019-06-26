@@ -1,7 +1,7 @@
 # Tensor RT
 
 ## Keras Workflow
-![alt text](https://github.com/ardianumam/Tensorflow-TensorRT/blob/master/pictures/Keras_to_TensorRT.png "Keras Workflow")
+![alt text](pictures/Keras_to_TensorRT.png "Keras Workflow")
 - https://github.com/jeng1220/KerasToTensorRT -- I cannot run it. Could you solve it?
 - https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f
 
