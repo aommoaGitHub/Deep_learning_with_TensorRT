@@ -4,12 +4,12 @@
 - https://developer.nvidia.com/tensorrt
 
 ## Keras Workflow
-![alt text](https://gitlab.iz.hs-offenburg.de/imla/demos/tensor_rt/blob/vittunyuta/notebook/pictures/Keras_to_TensorRT.png "Keras Workflow")
+![alt text](https://github.com/ardianumam/Tensorflow-TensorRT/blob/master/pictures/Keras_to_TensorRT.png)
 - https://github.com/jeng1220/KerasToTensorRT -- I cannot run it. Could you solve it?
 - https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f
 
 ## TensorFlow Workflow
-![alt text](https://gitlab.iz.hs-offenburg.de/imla/demos/tensor_rt/blob/vittunyuta/notebook/pictures/tf-trt_workflow.png "Tensorflow Workflow")
+![alt text](https://github.com/ardianumam/Tensorflow-TensorRT/blob/master/pictures/tf-trt_workflow.png)
 - https://devblogs.nvidia.com/tensorrt-integration-speeds-tensorflow-inference/
 
 ### 1. TensorFlow -> TensorRT on Jetson-tx2
