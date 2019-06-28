@@ -3,3 +3,4 @@ notebook/models/
 .ipynb_checkpoints
 notebook/data/
 notebook/helper.py
+notebook/logs/

@@ -1,4 +1,7 @@
 # Tensor RT
+## Sources
+- https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html
+- https://developer.nvidia.com/tensorrt
 
 ## Keras Workflow
 ![alt text](https://github.com/ardianumam/Tensorflow-TensorRT/blob/master/pictures/Keras_to_TensorRT.png)
@@ -20,9 +23,6 @@ There are python code for converting TensorFlow model to TensorRT model.
 1. TF-TRT Worlflow with A SavedModel
 2. TF-TRT Workflow with A Frozen Graph
 3. TF-TRT Workflow with MetaGraph and Checkpoint Files
-
-## Sources
-- https://developer.nvidia.com/tensorrt
 
 ### Hall of face - Face detection model
 - https://github.com/the-house-of-black-and-white/hall-of-faces
