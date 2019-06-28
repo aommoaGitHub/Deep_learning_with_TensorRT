@@ -4,7 +4,8 @@
 - https://developer.nvidia.com/tensorrt
 
 ## Progress
-**the main file is /notebook/main.ipynb**
+**>>>>>the main file is /notebook/main.ipynb**<br>
+
 **28-6-19** All code for inferencing Keras Model with TensorRT is done but there are 2 bugs
 	1. Cannot optimize the frozen model to TensorRT graph
 	2. Cannot inferencing
