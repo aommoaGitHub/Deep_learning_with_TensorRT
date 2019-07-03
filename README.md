@@ -13,7 +13,7 @@
 **3-7-19** Seperate into 2 files 
 	1.Converting Keras to frozen graph and then optimize to .pb files
 	2.Inferencing<br>
-	Bugs of Inferencing is fixed
+	Bugs of Inferencing is fixed, `It is a problem related to topK parameter in DetectionOutput layer. 5000 is too large that TensorRT crushed during runtime. After I reduce to below 2500 it runs fine.` Ref: https://devtalk.nvidia.com/default/topic/1037616/tensorrt/problems-with-nvidia-ssddetectionoutputplugin/
 
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT -- I cannot run it. Could you solve it?
