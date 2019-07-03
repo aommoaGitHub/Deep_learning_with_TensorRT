@@ -4,22 +4,25 @@
 - https://developer.nvidia.com/tensorrt
 
 ## Progress
-**>>>>>the main file is /notebook/main.ipynb**<br>
+**>>>>>the success file is /notebook/1-Keras2TRT.ipynb and 2-InferenceTRT**<br>
 
 **28-6-19** All code for inferencing Keras Model with TensorRT is done but there are 2 bugs
 	1. Cannot optimize the frozen model to TensorRT graph
 	2. Cannot inferencing
 
+**3-7-19** Seperate into 2 files 
+	1.Converting Keras to frozen graph and then optimize to .pb files
+	2.Inferencing<br>
+	Bugs of Inferencing is fixed
+
 ## Keras Workflow
-![alt text](https://github.com/ardianumam/Tensorflow-TensorRT/blob/master/pictures/Keras_to_TensorRT.png)
 - https://github.com/jeng1220/KerasToTensorRT -- I cannot run it. Could you solve it?
 - https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f
 
 ## TensorFlow Workflow
-![alt text](https://github.com/ardianumam/Tensorflow-TensorRT/blob/master/pictures/tf-trt_workflow.png)
 - https://devblogs.nvidia.com/tensorrt-integration-speeds-tensorflow-inference/
 
-### 1. TensorFlow -> TensorRT on Jetson-tx2
+### TensorFlow -> TensorRT on Jetson-tx2
 - https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification.git
 
 There are python code for converting TensorFlow model to TensorRT model. 
