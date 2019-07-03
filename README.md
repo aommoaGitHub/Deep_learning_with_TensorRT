@@ -16,16 +16,11 @@
 	Bugs of Inferencing is fixed, `It is a problem related to topK parameter in DetectionOutput layer. 5000 is too large that TensorRT crushed during runtime. After I reduce to below 2500 it runs fine.` Ref: https://devtalk.nvidia.com/default/topic/1037616/tensorrt/problems-with-nvidia-ssddetectionoutputplugin/
 
 ## Keras Workflow
-- https://github.com/jeng1220/KerasToTensorRT -- I cannot run it. Could you solve it?
-- https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f
+- https://github.com/jeng1220/KerasToTensorRT
+- **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
 
 ## TensorFlow Workflow
 - https://devblogs.nvidia.com/tensorrt-integration-speeds-tensorflow-inference/
-
-### TensorFlow -> TensorRT on Jetson-tx2
-- https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification.git
-
-There are python code for converting TensorFlow model to TensorRT model. 
 
 ### Accelerating Interference In TF-TRT
 - https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html
@@ -38,6 +33,12 @@ There are python code for converting TensorFlow model to TensorRT model.
 - https://github.com/the-house-of-black-and-white/hall-of-faces
 Area under the ROC curve show how good the model of detection.
 (mAP measurements) https://medium.com/@jonathan_hui/map-mean-average-precision-for-object-detection-45c121a31173
+
+## Examples of TensorFlow with TensorRT on Jetson-tx2
+- https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification.git
+- https://github.com/jkjung-avt/tf_trt_models.git
+
+There are python code for converting TensorFlow model to TensorRT model. 
 
 ## Simple Run
 - https://github.com/KleinYuan/py-TensorRT
