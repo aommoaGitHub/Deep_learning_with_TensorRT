@@ -15,6 +15,8 @@
 	2.Inferencing<br>
 	Bugs of Inferencing is fixed, `It is a problem related to topK parameter in DetectionOutput layer. 5000 is too large that TensorRT crushed during runtime. After I reduce to below 2500 it runs fine.` Ref: https://devtalk.nvidia.com/default/topic/1037616/tensorrt/problems-with-nvidia-ssddetectionoutputplugin/
 
+**4-7-19** Bugs of Creating TensorRt Inferencer is fixed. Solution is prevent create duplicate layers of frozen graph. 
+
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT
 - **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
