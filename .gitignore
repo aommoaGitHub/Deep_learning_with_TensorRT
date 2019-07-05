@@ -4,3 +4,5 @@ notebook/models/
 notebook/data/
 notebook/helper.py
 notebook/logs/
+notebook/saved_model/Magma_frozen_log
+notebook/saved_model/TensorRT_frozen_log
