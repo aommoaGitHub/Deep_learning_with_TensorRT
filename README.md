@@ -17,6 +17,8 @@
 
 **4-7-19** Bugs of Creating TensorRt Inferencer is fixed. Solution is prevent create duplicate layers of frozen graph. 
 
+**5-7-19** Finished Calculating and comparison between using origninal model and optimized model with TensorRT. Avaialble measures are `time` and `accuracy`.
+
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT
 - **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
