@@ -19,6 +19,8 @@
 
 **5-7-19** Finished Calculating and comparison between using origninal model and optimized model with TensorRT. Avaialble measures are `time` and `accuracy`.
 
+**8-7-19** Fix the problems about limit of image of trt graph by increse the batch size while creation trt frozen graph. (shame mistake >///<)
+
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT
 - **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
