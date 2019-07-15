@@ -21,6 +21,8 @@
 
 **8-7-19** Fix the problems about limit of image of trt graph by increse the batch size while creation trt frozen graph. (shame mistake >///<)
 
+**15-7-19** Finish showing graph from pb file on Jupyter notebook. And add sklearn accuracy score and f1-score
+
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT
 - **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
