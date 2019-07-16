@@ -23,6 +23,8 @@
 
 **15-7-19** Finish showing graph from pb file on Jupyter notebook. And add sklearn accuracy score and f1-score
 
+**16-7-19** Add others metrics
+
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT
 - **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
@@ -58,3 +60,4 @@ There are python code for converting TensorFlow model to TensorRT model.
 ## Reference
 - Workflow Image: https://github.com/ardianumam/Tensorflow-TensorRT.git
 - Convert Keras Model to Tensorflow model: https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a
+- Matrics: https://towardsdatascience.com/understanding-data-science-classification-metrics-in-scikit-learn-in-python-3bc336865019
