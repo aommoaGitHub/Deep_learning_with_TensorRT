@@ -25,6 +25,8 @@
 
 **16-7-19** Add others metrics
 
+**18-7-19** Add TensorRT Optimization of Object detection
+
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT
 - **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
