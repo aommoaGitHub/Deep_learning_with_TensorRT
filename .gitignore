@@ -6,3 +6,6 @@ notebook/helper.py
 notebook/logs/
 notebook/saved_model/Magma_frozen_log
 notebook/saved_model/TensorRT_frozen_log
+
+object_detection/trt_logs/
+object_detection/logs/
