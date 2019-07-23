@@ -27,6 +27,8 @@
 
 **18-7-19** Add TensorRT Optimization of Object detection
 
+**19-7-19** Add faster_rcnn_resnet101_kitti_2018_01_28 model and its test images. But there is a error while prediction.
+
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT
 - **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
@@ -41,20 +43,21 @@
 2. TF-TRT Workflow with A Frozen Graph
 3. TF-TRT Workflow with MetaGraph and Checkpoint Files
 
-### Hall of face - Face detection model
+## Examples of TensorFlow with TensorRT on Jetson-tx2
+- https://github.com/ardianumam/Tensorflow-TensorRT.git 
+- https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification.git
+
+There are python code for converting TensorFlow model to TensorRT model. 
+
+
+## Face detection - Hall of face
 - https://github.com/the-house-of-black-and-white/hall-of-faces
 Area under the ROC curve show how good the model of detection.
 (mAP measurements) https://medium.com/@jonathan_hui/map-mean-average-precision-for-object-detection-45c121a31173
 
-## Examples of TensorFlow with TensorRT on Jetson-tx2
-- https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification.git
-- https://github.com/jkjung-avt/tf_trt_models.git
-
-There are python code for converting TensorFlow model to TensorRT model. 
-
-## Simple Run
-- https://github.com/KleinYuan/py-TensorRT
-- https://github.com/JerryJiaGit/facenet_trt
+## Object Detection
+- https://github.com/tensorflow/models/tree/master/research/object_detection
+- https://github.com/tensorflow/models/tree/master/research/object_detection/samples/configs this link for seeing config of each model
 
 ## More
 - onnx
