@@ -10,3 +10,4 @@ notebook/saved_model/TensorRT_frozen_log
 object_detection/trt_logs/
 object_detection/logs/
 object_detection/test_images/
+object_detection/models
