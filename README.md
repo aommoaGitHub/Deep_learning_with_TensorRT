@@ -29,6 +29,12 @@
 
 **19-7-19** Add faster_rcnn_resnet101_kitti_2018_01_28 model and its test images. But there is a error while prediction.
 
+**23-7-19** Clean a version cotrol such as reduce .git file by remove all large file from all commits (using command `git filter-branch --tree-filter 'rm -f <path/to/file>' -- --all`) and cleanup unnecessary files (using command `git gc --aggressive --prune=now`), make sure a repository is correct and up to date.
+
+**24-7-19** Add aadc2018_frcnn_res101_200k_kitti model and its test images. But the model cannot import. It may be because the model is newer version of Tensorflow than Tensorflow version on the Jetson board.
+
+**25-7-19** Add code for checking annotations(found items) of each image, which is used for calculation accuracy. A cause of the problem while prediction is "Out of memory". A prediction process use too much memory so it is killed.
+
 ## Keras Workflow
 - https://github.com/jeng1220/KerasToTensorRT
 - **https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f**
