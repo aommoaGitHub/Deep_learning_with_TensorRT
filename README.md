@@ -15,14 +15,14 @@ This project is divided into 2 path.
 
 ## Optimize Keras model with TensorRT
 The selected integration workflow is workflow with a frozen graph. It's concluded into 3 steps.
-`workflow image`
+![Alt text](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/doc_img/keras_trt_workflow.png)
 
 #### 1. Convert model to frozen model
 In this case, the Keras model to be converted is trained Magma model from the previous work. There is a function from TensorFlow named convert_variables_to_constants which use to freeze the model. [Sample Code.](https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a) This function can freeze both Keras and TensorFlow model and return a frozen model. **That means both of the Keras and TensorFlow model can be frozen in the same way.** You can use gflie library to save a frozen model as a .pb file that allow you to load the model in several times.
 
 #### 2. Optimize frozen model with TensorRT
  This step use function create_inference_graph to optimize frozen model to TensorRT model. The function return TensorRT model (graph). Finally, save the a TensorRT model as .pb file.
-`code image`
+![Alt text](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/doc_img/optimize_trt.png)
 
 **Step 1 and 2 are in [1-main-Converting.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/keras/1-main-Converting.ipynb)**
 
