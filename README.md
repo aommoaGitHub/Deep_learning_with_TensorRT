@@ -15,14 +15,14 @@ This project is divided into 2 path.
 
 ## Optimize Keras model with TensorRT
 The selected integration workflow is workflow with a frozen graph. It's concluded into 3 steps.
-![Alt text](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/doc_img/keras_trt_workflow.png)
+![Image of Workflow](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/doc_img/keras_trt_workflow.png)
 
 #### 1. Convert model to frozen model
 In this case, the Keras model to be converted is trained Magma model from the previous work. There is a function from TensorFlow named convert_variables_to_constants which use to freeze the model. [Sample Code.](https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a) This function can freeze both Keras and TensorFlow model and return a frozen model. **That means both of the Keras and TensorFlow model can be frozen in the same way.** You can use gflie library to save a frozen model as a .pb file that allow you to load the model in several times.
 
 #### 2. Optimize frozen model with TensorRT
  This step use function create_inference_graph to optimize frozen model to TensorRT model. The function return TensorRT model (graph). Finally, save the a TensorRT model as .pb file.
-![Alt text](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/doc_img/optimize_trt.png)
+![Image of Code](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/doc_img/optimize_trt.png)
 
 **Step 1 and 2 are in [1-main-Converting.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/keras/1-main-Converting.ipynb)**
 
@@ -50,18 +50,39 @@ You can repeat these steps with original frozen model (the frozen model without 
 The workflow is the same as optimizing Keras model. The main different is **model** for object detection are more diversity and complexity.
 
 ### Directory Structure
++ `object_detection/``
+	+ `data/` -> contains label map of models
+	+ `logs/` -> logs created while load original model, which used by TensorBoard
+	+ `trt_logs/` -> logs created while load optimized model, which used by TensorBoard
+	+ `utils/` -> python helper code such as visualization
+	+ `test_images2/` -> contain 2 images for detection testing
+	+ `models/`
+		+ `ssd_mobilenet_v1_coco_2017_11_17/`
+			+ frozen_inference_graph.pb
+		+ `faster_rcnn_resnet101_kitti_2018_01_28/`
+			+ frozen_inference_graph.pb
+		+ `aadc2018_frcnn_res101_200k_kitti/` -> given model, dataset, and labels
+			+ `test_images_20181027` -> contains test images
+			+ `detected_images/` -> contains images after detection
+			+ aadc2018_frcnn_res101_200k_kitti.pb
+			+ aadc_labels_2018.pbtxt
+			+ aadc_labels_2018_without_middlelane.pbtxt
+			+ aadc_labels_2018_slim.pbtxt
+	+ `InferenceWithTensorRT.ipynb` -> main notebook file
 
-
+### Detail
 
 ### Problems
 out of memory - inference faster, tensorrt
 newer version of tf
 
+### Reference
+- https://github.com/tensorflow/models/tree/master/research/object_detection
+- https://github.com/tensorflow/models/tree/master/research/object_detection/samples/configs this link for seeing config of each model
 
 
 
-
-## Progress
+## Daily Progress
 **Date: Friday 28th June 2019**
 All code for inferencing Keras Model with TensorRT is done but there are 2 bugs
 1. Cannot optimize the frozen model to TensorRT graph
@@ -104,23 +125,11 @@ Add aadc2018_frcnn_res101_200k_kitti model and its test images. But the model ca
 Add code for checking annotations(found items) of each image, which is used for calculation accuracy. A cause of the problem while prediction is "Out of memory". A prediction process use too much memory so it is killed.
 
 
-
-
-## Examples of TensorFlow with TensorRT on Jetson-tx2
-- https://github.com/ardianumam/Tensorflow-TensorRT.git
-- https://github.com/NVIDIA-AI-IOT/tf_to_trt_image_classification.git
-
-There are python code for converting TensorFlow model to TensorRT model.
-
-
-## Face detection - Hall of face
+## Moreover Source (not done yet)
+### Face detection - Hall of face
 - https://github.com/the-house-of-black-and-white/hall-of-faces
 Area under the ROC curve show how good the model of detection.
 (mAP measurements) https://medium.com/@jonathan_hui/map-mean-average-precision-for-object-detection-45c121a31173
 
-## Object Detection
-- https://github.com/tensorflow/models/tree/master/research/object_detection
-- https://github.com/tensorflow/models/tree/master/research/object_detection/samples/configs this link for seeing config of each model
-
-## More
-- onnx
+### Video - Object Detection
+- YOLO Realtim: https://github.com/ardianumam/Tensorflow-TensorRT.git
