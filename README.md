@@ -15,16 +15,16 @@ This project is divided into 2 path.
 
 ## Optimize Keras model with TensorRT
 The selected integration workflow is a workflow with a frozen graph. It's concluded into 3 steps.
-![Image of Workflow](https://imgur.com/2xVQrMl)
+![Image of Workflow](https://i.imgur.com/2xVQrMl.png)
 
 #### 1. Convert model to frozen model
 In this case, the Keras model to be converted is trained Magma model from the previous work. There is a function from TensorFlow named `convert_variables_to_constants` which use to freeze the model. [Sample Code.](https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a) This function can freeze both Keras and TensorFlow model and return a frozen model. **That means both of the Keras and TensorFlow models can be frozen in the same way.** You can use `gflie` library to save a frozen model as a .pb file that allows you to load the model in several times.
 
 #### 2. Optimize frozen model with TensorRT
  This step use `create_inference_graph` function to optimize frozen model to TensorRT model. The function return TensorRT model (graph). Finally, save the a TensorRT model as .pb file.
-![Image of Code](https://imgur.com/szk1ViC)
+![Image of Code](https://i.imgur.com/szk1ViC.png)
 The [arguments](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html#tf-trt-api) of optimizing.
-- **input_graph_def:** input a frozen graph which is returned by  [**tf.graph_util.convert_variables_to_constants**](https://www.tensorflow.org/api_docs/python/tf/graph_util/convert_variables_to_constants) function. ![Image of frozen](https://imgur.com/8UkjFrC)
+- **input_graph_def:** input a frozen graph which is returned by  [**tf.graph_util.convert_variables_to_constants**](https://www.tensorflow.org/api_docs/python/tf/graph_util/convert_variables_to_constants) function. ![Image of frozen](https://i.imgur.com/8UkjFrC.png)
 Above image is an example code. This function require 3 arguments.
 	1. **session:** Active TensorFlow session
 	2. **input_graph_def:** TensorFlow GraphDef which is loaded from .pb file
@@ -50,9 +50,9 @@ You can repeat these steps with the original frozen model (the frozen model with
 
 ### Result
 The objective of this path is a comparison between the original model and optimized model by TensorRT. There are some basic comparison and its result.
-- Time: Inferencing by the optimized model take less time than the original model. [Diff Time](https://imgur.com/f4dAc0M) But if a number test predictions images is low such as 30 images, unoptimized model sometimes might be faster or equal.
+- Time: Inferencing by the optimized model take less time than the original model. ![Diff Time](https://i.imgur.com/f4dAc0M.png) But if a number test predictions images is low such as 30 images, unoptimized model sometimes might be faster or equal.
 - Prediction Result: Both are the same.
-[Prediction result](https://imgur.com/QHq2rCt)
+![Prediction result](https://i.imgur.com/QHq2rCt.png)
 - Others metrics such as Confusion matrix, Recall score, Precision score,  f1-score, ROC curve and AUC (area under curve): Both are the same.
 
 ### Important Reference
