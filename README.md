@@ -8,6 +8,14 @@
 - Workflow: https://devblogs.nvidia.com/tensorrt-integration-speeds-tensorflow-inference/
 - Guide: https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html
 
+### More Definitions
+1. TensorFlow (TF): a Python library used in production for deep learning models.
+	- TensorFlow Tensor: Tensor represent all the data in any type and dimensions. The flow of the Tensors refer to the computational graph.
+	- TensorFlow Graph: Graph show map of the tensor. Graph consists of edges and nodes. Each node called “operation”. There are input nodes, middle level nodes (nodes between input and output nodes), and output nodes. Each node can have either an input or output data(tensor). Input data can be “variables” or “constant”.
+	- TensorFlow Session: Session is a place where the graph is executed. Technically, session place on hardware such as CPUS or GPUs and provide function for execution.
+![tensorflow](https://i.imgur.com/YcNzmA6.png)
+2. Keras: high-level neural networks Python library that built on TensorFlow which is more user-friendly and easy to use but less advanced operations as compared to TensorFlow.
+
 ## Outline
 This project is divided into 2 path.
 1. Optimize Keras model with TensorRT [here](https://gitlab.com/imla/demos/tensor_rt/tree/vittunyuta/keras)
@@ -68,7 +76,10 @@ You can repeat all these steps with the original frozen model (the frozen model 
 - Metrics: https://towardsdatascience.com/understanding-data-science-classification-metrics-in-scikit-learn-in-python-3bc336865019
 
 ## Optimize Object detection model with TensorRT
-The objectives of this path are optimizing the object detection models with TensorRT and comparison between the original model and optimized model. The workflow is almost the same as optimizing Keras model. The main difference is **model** for object detection are more diversity and complexity. And the **dataset** is from car camera.
+The objectives of this path are optimizing the object detection models with TensorRT and comparison between the original model and optimized model. The working file is [InferenceWithTensorRT.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/object_detection/InferenceWithTensorRT.ipynb). The workflow is almost the same as optimizing Keras model. The main differences are 
+- **Models** for object detection are more diversity and complexity.
+- A **Dataset** is from car camera. 
+- Inferencing function can receive only 1 image so there must be a loop to serve and queue images to the inferencing function. 
 
 ### Directory Structure
 + `object_detection/`
@@ -77,7 +88,6 @@ The objectives of this path are optimizing the object detection models with Tens
 	+ `trt_logs/` -> logs created while load optimized model, which used by TensorBoard
 	+ `utils/` -> python helper code such as visualization
 	+ `test_images2/` -> contain 2 images for detection testing
-		+ final_config.json -> list of all object of all images should be detected
 	+ `models/`
 		+ `ssd_mobilenet_v1_coco_2017_11_17/`
 			+ frozen_inference_graph.pb
@@ -85,7 +95,9 @@ The objectives of this path are optimizing the object detection models with Tens
 			+ frozen_inference_graph.pb
 		+ `aadc2018_frcnn_res101_200k_kitti/` -> given model, dataset, and labels
 			+ `test_images_20181027` -> contains test images which is images from the car camera.
+				+ final_config.json -> list of all objects of all images should be detected
 			+ `detected_images/` -> contains images after detection
+				+ images_detail.json -> list of detail infereced images include detected objects (annotations from final_config.json), filename, path, inference time, and detected numbers 
 			+ aadc2018_frcnn_res101_200k_kitti.pb
 			+ aadc_labels_2018.pbtxt
 			+ aadc_labels_2018_without_middlelane.pbtxt
@@ -116,24 +128,24 @@ In conclusion, precision mode INT8 take the least time and FP16 take the most ti
 
 Note that, time taking of optimizing depend on free memory space. "Much free space, less time taking".
 
-#### Object Detection Check
+#### Object Detection Number Check
 Code for checking the inferencing result has already added. The final answer (real value) is in the `final_config.json`.
 - In preparing images list for inferencing, not only collect images filename and path but also each annotations (objects in each image that should be detected) from final_config.json. The images list will look like this.
 > TEST_IMAGE_LIST = [{<br>
 > 'annotations' : [list of objects], <br>
->	'filename': name string,<br>
+> 'filename': name string,<br>
 > 'path': image path<br>
 > },<br>
 > {<br>
 > ...<br>
 > }]
-- A function `run_inference_for_single_image` in [InferenceWithTensorRT.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/object_detection/InferenceWithTensorRT.ipynb) return output_dict
+- `visualize_boxes_and_labels_on_image_array` function from utils is used to wrtie box of all objects in each images. It return an image with boxes so I edited to also return box number, which is the number of detected object. Now, it's easy to check the correctness of detection by comparing box number with a length of annotations.
+- Add the box number and inference time into each image in the list and save it as `images_datail.json`. The `images_datail.json` will look like this.
+![Images Detail](https://i.imgur.com/Z5Nx7B4.png)
 
 ### Reference
 - https://github.com/tensorflow/models/tree/master/research/object_detection
 - https://github.com/tensorflow/models/tree/master/research/object_detection/samples/configs this link for configuration of each model
-
-
 
 ## Daily Progress
 **Date: Friday 28th June 2019**
