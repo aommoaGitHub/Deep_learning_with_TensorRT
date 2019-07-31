@@ -14,55 +14,61 @@ This project is divided into 2 path.
 2. Optimize Object detection model with TensorRT [here](https://gitlab.com/imla/demos/tensor_rt/tree/vittunyuta/object_detection)
 
 ## Optimize Keras model with TensorRT
-The selected integration workflow is a workflow with a frozen graph. It's concluded into 3 steps.
+The objective of this path is optimizing the Keras model with TensorRT and comparison time, accuracy, other metrics between the original Keras model and optimized model. The selected integration workflow is a workflow with a frozen graph. It's concluded into 3 steps.
 ![Image of Workflow](https://i.imgur.com/2xVQrMl.png)
 
 #### 1. Convert model to frozen model
-In this case, the Keras model to be converted is trained Magma model from the previous work. There is a function from TensorFlow named `convert_variables_to_constants` which use to freeze the model. [Sample Code.](https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a) This function can freeze both Keras and TensorFlow model and return a frozen model. **That means both of the Keras and TensorFlow models can be frozen in the same way.** You can use `gflie` library to save a frozen model as a .pb file that allows you to load the model in several times.
+In this case, I converted trained Keras Magma model. There is a function from TensorFlow named [`tf.graph_util.convert_variables_to_constants`](https://www.tensorflow.org/api_docs/python/tf/graph_util/convert_variables_to_constants) which use to freeze the model. This function can freeze both Keras and TensorFlow model and return a frozen model. This image is a new function using to freeze model. [Ref](https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a)
+![Image of frozen](https://i.imgur.com/tUAXCEz.png)
+
+This function require 3 arguments.
+1. **session:** Active TensorFlow session
+2. **input_graph_def:** TensorFlow GraphDef which is loaded from .pb file
+3. **output_node_names:** List of all output nodes name in the graph.
+4. **variable_names_whitelist:** (Optional) The set of variable names to convert. By default, all variables are converted or it value is None.
+5. **variable_names_blacklist:** (Optional) The set of variable names to omit converting to constants. The default is None.
+
+**That means both of the Keras and TensorFlow models can be frozen in the same way.** You can use `gflie` library to save a frozen model as a .pb file that allows you to load the model in several times. ![gfile](https://i.imgur.com/8TcLkid.png) So now, you have *a frozen Keras model.*
 
 #### 2. Optimize frozen model with TensorRT
- This step use `create_inference_graph` function to optimize frozen model to TensorRT model. The function return TensorRT model (graph). Finally, save the a TensorRT model as .pb file.
+This step use `create_inference_graph` function to optimize frozen model with TensorRT. The function return TensorRT model (graph). Finally, save the a TensorRT model as .pb file.
 ![Image of Code](https://i.imgur.com/szk1ViC.png)
-The [arguments](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html#tf-trt-api) of optimizing.
-- **input_graph_def:** input a frozen graph which is returned by  [**tf.graph_util.convert_variables_to_constants**](https://www.tensorflow.org/api_docs/python/tf/graph_util/convert_variables_to_constants) function. ![Image of frozen](https://i.imgur.com/8UkjFrC.png)
-Above image is an example code. This function require 3 arguments.
-	1. **session:** Active TensorFlow session
-	2. **input_graph_def:** TensorFlow GraphDef which is loaded from .pb file
-	3. **output_node_names:** List of all output nodes name in the graph.
+
+The [arguments of *create_inference_graph* function](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html#tf-trt-api) are
+- **input_graph_def:** input a frozen graph which is returned by  `convert_variables_to_constants` function.
 - **outputs:** List of all output nodes name in the graph.
 - **max_batch_size:** the max size for the input batch. That means "How many images you can inference at the same time". The default value is 1.
-- **max_work_space:** The maximum GPU temporary memory which the TensorRT engine can use for execution.
+- **max_work_space:** The maximum GPU temporary memory which the TensorRT engine can use for execution. The default value is 1GB or 1*(10**9).
 - **precision_mode:** It is a data type that the optimized model can have graph and parameters stored in. The available modes are "FP32"(float32),"FP16","INT8". The default value is "FP32".
 
 
 **Step 1 and 2 are in [1-main-Converting.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/keras/1-main-Converting.ipynb)**
 
 #### 3. Inference using TensorRT model
-The inference is the stage in which a trained model is used to infer/predict the testing samples. It similar forward pass as training to predict the values. [2-InferenceTRT.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/notebook/2-InferenceTRT.ipynb) is a inferencing code file. The steps are
-1. load frozen model (.pb file) which has already optimized with TensorRT
-2. import the loaded model using import_graph_def
+The inference is the stage in which a trained model is used to infer/predict the testing samples. It similar forward pass as training to predict the values. [**2-InferenceTRT.ipynb**](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/notebook/2-InferenceTRT.ipynb) is a inferencing code file. The steps are
+1. Load frozen model (.pb file) which has already optimized with TensorRT
+2. Import the loaded model using import_graph_def
 3. Get input and output tensors
 4. Write logs for TensorBoard (optional)
 5. Inference using function run of TensorFlow Session.
 
 In this case, I inference 50 times to find the average inference time.
-You can repeat these steps with the original frozen model (the frozen model without optimizing with TensorRT) for comparison.
+You can repeat all these steps with the original frozen model (the frozen model without optimizing with TensorRT) for comparison.
 
-### Result
-The objective of this path is a comparison between the original model and optimized model by TensorRT. There are some basic comparison and its result.
-- Time: Inferencing by the optimized model take less time than the original model. ![Diff Time](https://i.imgur.com/f4dAc0M.png) But if a number test predictions images is low such as 30 images, unoptimized model sometimes might be faster or equal.
-- Prediction Result: Both are the same.
+### Comparison Result
+- **Time:** Inferencing by the optimized model take less time than the original model. ![Diff Time](https://i.imgur.com/f4dAc0M.png) But if a number test predictions images is low such as 30 images, unoptimized model sometimes might be faster or equal.
+- **Prediction Result:** Both predicted the same so their accuracy are the same.
 ![Prediction result](https://i.imgur.com/QHq2rCt.png)
-- Others metrics such as Confusion matrix, Recall score, Precision score,  f1-score, ROC curve and AUC (area under curve): Both are the same.
+- **Others metrics** such as Confusion matrix, Recall score, Precision score,  f1-score, ROC curve and AUC (area under curve): Both are the same.
 
 ### Important Reference
 - Workflow: https://www.youtube.com/watch?v=AIGOSz2tFP8&list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f
-- Converting Code: https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a
+- Converting Code Guide: https://medium.com/@pipidog/how-to-convert-your-keras-models-to-tensorflow-e471400b886a
 - Inference Code: https://github.com/ardianumam/Tensorflow-TensorRT.git
 - Metrics: https://towardsdatascience.com/understanding-data-science-classification-metrics-in-scikit-learn-in-python-3bc336865019
 
 ## Optimize Object detection model with TensorRT
-The workflow is almost the same as optimizing Keras model. The main difference is **model** for object detection are more diversity and complexity. And the **dataset** is from car camera.
+The objectives of this path are optimizing the object detection models with TensorRT and comparison between the original model and optimized model. The workflow is almost the same as optimizing Keras model. The main difference is **model** for object detection are more diversity and complexity. And the **dataset** is from car camera.
 
 ### Directory Structure
 + `object_detection/`
@@ -71,6 +77,7 @@ The workflow is almost the same as optimizing Keras model. The main difference i
 	+ `trt_logs/` -> logs created while load optimized model, which used by TensorBoard
 	+ `utils/` -> python helper code such as visualization
 	+ `test_images2/` -> contain 2 images for detection testing
+		+ final_config.json -> list of all object of all images should be detected
 	+ `models/`
 		+ `ssd_mobilenet_v1_coco_2017_11_17/`
 			+ frozen_inference_graph.pb
@@ -87,17 +94,17 @@ The workflow is almost the same as optimizing Keras model. The main difference i
 
 ### Models
 There are 3 models are considered.
-1. `ssd_mobilenet_v1_coco_2017_11_17` is a [Single-Shot multi-box Detection (SSD)](https://medium.com/@smallfishbigsea/understand-ssd-and-implement-your-own-caa3232cd6ad) network intended to perform object detection. This model is a default model in [tutorial](https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb). So, It's a starting model. You can download from [here](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz).
-2. `faster_rcnn_resnet101_kitti_2018_01_28/` is a network for object detection. It has use cases in self-driving cars, manufacturing, security.
-3. `aadc2018_frcnn_res101_200k_kitti/` is similar to faster_rcnn_kitti model but more suitable with the dataset.
+1. `ssd_mobilenet_v1_coco_2017_11_17` is a [Single-Shot multi-box Detection (SSD)](https://medium.com/@smallfishbigsea/understand-ssd-and-implement-your-own-caa3232cd6ad) network intended to perform object detection. This model is a default model in [tutorial](https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb). So, It's a starting model. You can download model [here](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz).
+2. `faster_rcnn_resnet101_kitti_2018_01_28/` is a network for object detection. It has use cases in self-driving cars, manufacturing, security. You can download model [here](http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet101_kitti_2018_01_28.tar.gz).
+3. `aadc2018_frcnn_res101_200k_kitti/` is a given model (from professor). It is similar to faster_rcnn_kitti model but more suitable with the dataset.
 
 ### Problems and Causes
 1. `ssd_mobilenet_v1_coco_2017_11_17` can inference both `test_images2` and `test_images_20181027` because it use less memory for inferencing. But this network is not suitable to detect objects in images from car camera. So, the accuracy is too low.
 2. `faster_rcnn_resnet101_kitti_2018_01_28/` cannot inference because Jetson tx2 board has only 8GB memory and inferencing take a lot of memory. So, the inferencing process was automatically killed.
 3. `aadc2018_frcnn_res101_200k_kitti/` is a newer version of TensorFlow so it cannot be loaded. (TensorFlow version in Jetson tx2 board is 1.9.0 which is an old version)
-4. Because there is only `ssd_mobilenet_v1_coco_2017_11_17` which can inference, it is only the model that optimized with TensorRT. But, the optimized model cannot inference. The inferencing process was automatically killed because the process took too much memory. However, please be aware about argument setting especially **max_batch_size** and **max_work_space**. A large **max_batch_size** will make large consuming memory. If **max_work_space** is exceed, a process will be automatically killed.
+4. Because there is only `ssd_mobilenet_v1_coco_2017_11_17` which can inference, it is only the model that optimized with TensorRT. But, **the optimized model cannot inference.** The inferencing process was automatically killed because the process took too much memory. Although decreasing `max_batch_size to 1` and increasing `max_work_space to 5GB`, the inferencing still automatically killed. *Note that: A large max_batch_size will make large consuming memory. And, when max_work_space is exceed, a process will be automatically killed.*
 
-### Interest things
+### Additional
 #### Precision mode in TensorRT
 [Precision mode](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html#precision-mode) is one of arguments have to be set in optimizing TensorRT. There are 3 available values, "FP32", "FP16", and "INT8".
 Here is the result after trying optimized `ssd_mobilenet_v1_coco_2017_11_17` model with 3 different precision mode.
@@ -108,6 +115,19 @@ Here is the result after trying optimized `ssd_mobilenet_v1_coco_2017_11_17` mod
 In conclusion, precision mode INT8 take the least time and FP16 take the most time. But the optimized model of precision mode INT8 cannot be loaded. It might be because [the model need to be quantized before optimizing](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html#int8-quantization).
 
 Note that, time taking of optimizing depend on free memory space. "Much free space, less time taking".
+
+#### Object Detection Check
+Code for checking the inferencing result has already added. The final answer (real value) is in the `final_config.json`.
+- In preparing images list for inferencing, not only collect images filename and path but also each annotations (objects in each image that should be detected) from final_config.json. The images list will look like this.
+> TEST_IMAGE_LIST = [{<br>
+> 'annotations' : [list of objects], <br>
+>	'filename': name string,<br>
+> 'path': image path<br>
+> },<br>
+> {<br>
+> ...<br>
+> }]
+- A function `run_inference_for_single_image` in [InferenceWithTensorRT.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/object_detection/InferenceWithTensorRT.ipynb) return output_dict
 
 ### Reference
 - https://github.com/tensorflow/models/tree/master/research/object_detection
