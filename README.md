@@ -9,12 +9,19 @@
 - Guide: https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html
 
 ### More Definitions
-1. TensorFlow (TF): a Python library used in production for deep learning models.
-	- TensorFlow Tensor: Tensor represent all the data in any type and dimensions. The flow of the Tensors refer to the computational graph.
-	- TensorFlow Graph: Graph show map of the tensor. Graph consists of edges and nodes. Each node called “operation”. There are input nodes, middle level nodes (nodes between input and output nodes), and output nodes. Each node can have either an input or output data(tensor). Input data can be “variables” or “constant”.
-	- TensorFlow Session: Session is a place where the graph is executed. Technically, session place on hardware such as CPUS or GPUs and provide function for execution.
+1. **TensorFlow (TF):** a Python library used in production for deep learning models.
+	- **TensorFlow Tensor:** Tensor represent all the data in any type and dimensions. The flow of the Tensors refer to the computational graph.
+	- **TensorFlow Graph:** Graph show map of the tensor. Graph consists of edges and nodes. Each node called “operation”. There are input nodes, middle level nodes (nodes between input and output nodes), and output nodes. Each node can have either an input or output data(tensor). Input data can be “variables” or “constant”.
+	- **TensorFlow Session:** Session is a place where the graph is executed. Technically, session place on hardware such as CPUS or GPUs and provide function for execution.
 ![tensorflow](https://i.imgur.com/YcNzmA6.png)
-2. Keras: high-level neural networks Python library that built on TensorFlow which is more user-friendly and easy to use but less advanced operations as compared to TensorFlow.
+2. **Keras:** high-level neural networks Python library that built on TensorFlow which is more user-friendly and easy to use but less advanced operations as compared to TensorFlow.
+3. **TensorBoard:** is a suite of web application which used to inspect and understand TensorFlow runs and graph. To use the TensorBoard, run command
+	>tensorboard --logdir=/path/to/logs/file/
+
+	For example, this image show command of TensorBoard. Each orange sentence is each graph that found in a directory. Link of the TensorBoard web application is localhost:6006/ or link in the first line of the command’s result.
+	![TensorBoard](https://i.imgur.com/dXEJXpv.png)
+	You can find the input or output nodes name by considering the detail of the selected node on the top-right of the TensorBoard web application. The input nodes don’t have any input tensors as they're the input themselves. In the same way, the output nodes don’t have any output tensors as they're the output themselves.
+	![TensorBoard](https://i.imgur.com/Lex7Bnq.png)![TensorBoard](https://i.imgur.com/PeVnr67.png)
 
 ## Outline
 This project is divided into 2 path.
@@ -44,7 +51,7 @@ This step use `create_inference_graph` function to optimize frozen model with Te
 
 The [arguments of *create_inference_graph* function](https://docs.nvidia.com/deeplearning/frameworks/tf-trt-user-guide/index.html#tf-trt-api) are
 - **input_graph_def:** input a frozen graph which is returned by  `convert_variables_to_constants` function.
-- **outputs:** List of all output nodes name in the graph.
+- **outputs:** List of all output nodes name in the graph. The easiest way to find the list of output nodes is using TensorBoard.
 - **max_batch_size:** the max size for the input batch. That means "How many images you can inference at the same time". The default value is 1.
 - **max_work_space:** The maximum GPU temporary memory which the TensorRT engine can use for execution. The default value is 1GB or 1*(10**9).
 - **precision_mode:** It is a data type that the optimized model can have graph and parameters stored in. The available modes are "FP32"(float32),"FP16","INT8". The default value is "FP32".
@@ -76,10 +83,10 @@ You can repeat all these steps with the original frozen model (the frozen model 
 - Metrics: https://towardsdatascience.com/understanding-data-science-classification-metrics-in-scikit-learn-in-python-3bc336865019
 
 ## Optimize Object detection model with TensorRT
-The objectives of this path are optimizing the object detection models with TensorRT and comparison between the original model and optimized model. The working file is [InferenceWithTensorRT.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/object_detection/InferenceWithTensorRT.ipynb). The workflow is almost the same as optimizing Keras model. The main differences are 
+The objectives of this path are optimizing the object detection models with TensorRT and comparison between the original model and optimized model. The working file is [InferenceWithTensorRT.ipynb](https://gitlab.com/imla/demos/tensor_rt/blob/vittunyuta/object_detection/InferenceWithTensorRT.ipynb). The workflow is almost the same as optimizing Keras model. The main differences are
 - **Models** for object detection are more diversity and complexity.
-- A **Dataset** is from car camera. 
-- Inferencing function can receive only 1 image so there must be a loop to serve and queue images to the inferencing function. 
+- A **Dataset** is from car camera.
+- Inferencing function can receive only 1 image so there must be a loop to serve and queue images to the inferencing function.
 
 ### Directory Structure
 + `object_detection/`
@@ -97,7 +104,7 @@ The objectives of this path are optimizing the object detection models with Tens
 			+ `test_images_20181027` -> contains test images which is images from the car camera.
 				+ final_config.json -> list of all objects of all images should be detected
 			+ `detected_images/` -> contains images after detection
-				+ images_detail.json -> list of detail infereced images include detected objects (annotations from final_config.json), filename, path, inference time, and detected numbers 
+				+ images_detail.json -> list of detail infereced images include detected objects (annotations from final_config.json), filename, path, inference time, and detected numbers
 			+ aadc2018_frcnn_res101_200k_kitti.pb
 			+ aadc_labels_2018.pbtxt
 			+ aadc_labels_2018_without_middlelane.pbtxt
